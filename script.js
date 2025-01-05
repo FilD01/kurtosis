@@ -42,6 +42,26 @@ if (savedLibrary) {
   document.getElementById("library").value = savedLibrary;
 }
 
+async function fetchReservations() {
+
+    // const url = `https://www-sso.groupware.kuleuven.be/sites/KURT/_vti_bin/WebProxy/WebProxy.svc/CallService?webserviceUrl=https://wsrts.ghum.kuleuven.be/service1.asmx/GetMyReservationsJSON?user=${savedRNumber}`;
+    const url = `https://wsrts.ghum.kuleuven.be/service1.asmx/GetMyReservationsJSON?user=${savedRNumber}`;
+    
+    const reservations = await fetch(url)
+      .then(response => response.json())
+      .then(data =>
+        data.map(item => ({
+          resource_id: item.ResourceID,
+          resource_name: item.displayName,
+          start_date: new Date(item.startDTstring),
+          end_date: new Date(item.endDTstring),
+          status: item.checkinstatus,
+        }))
+      );
+    console.log(reservations);
+    return reservations
+}
+
 async function fetchTimeslots(date, uid) {
   const selectedLibrary = document.getElementById("library").value;
 
@@ -182,6 +202,13 @@ function renderTable(sortedTimeslots, selectedDate, selectedLibrary) {
 
 let currentlyBooking = {};
 
+function openReservationsDialog() {
+  const dialog = document.getElementById("reservationsDialog");
+  dialog.showModal();
+  const content = document.getElementById("reservationsContent");
+  content.innerHTML = fetchReservations();
+}
+
 function openBookingDialog(resourceData) {
   const dialog = document.getElementById("bookDialog");
   dialog.showModal();
@@ -211,6 +238,10 @@ function openBookingDialog(resourceData) {
 
 document.getElementById("bookDialog").addEventListener("close", function () {
   currentlyBooking = {};
+});
+
+document.getElementById("reservationsDialog").addEventListener("close", function () {
+    console.log("Closed reservations!");
 });
 
 function isReservationAvailable(targetDateInput) {
@@ -327,6 +358,20 @@ function refreshDropdowns(startTime) {
 document
   .getElementById("startTime")
   .addEventListener("change", e => refreshDropdowns(e.target.value));
+
+
+document
+    .getElementById("myReservationsButton")
+    .addEventListener("click", function () {
+            console.log("Hello Reservations!");
+            window.open(`https://www-sso.groupware.kuleuven.be/sites/KURT/Pages/KURT-my-reservations.aspx`)
+            //openReservationsDialog();
+     });
+
+
+document.getElementById("bookButton").addEventListener("click", function () {
+  window.open(generateLink());
+});
 
 document
   .getElementById("queryForm")

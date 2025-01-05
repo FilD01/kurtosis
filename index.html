@@ -17,61 +17,66 @@
 
 <body>
   <form id="queryForm">
-    <div class="queryContainer">
-      <label for="date">Library:</label>
-      <select id="library" name="library" required>
-
-        <optgroup label="Agora">
-          <option value="agora" selected>Silent Study</option>
-          <option value="agora-blok-rooms">
-            Seats in rooms (Only during blokperiode)
-          </option>
-          <option value="agora-flexispace">
-            FlexiSpace (Only during blokperiode)
-          </option>
-          <option value="agora-rooms">
-            Meeting rooms (Not during blokperiode)
-          </option>
-        </optgroup>
-
-        <optgroup label="Arenberg">
-          <option value="arenberg-main">Boekenzaal/Leeszaal/DeLeVille</option>
-          <option value="arenberg-rest">Kelder/Zolder</option>
-          <option value="arenberg-tulp">Tulp 0/1</option>
-        </optgroup>
-        <optgroup label="Antwerpen">
-          <option value="antwerp-balustrade">Balustrade</option>
-          <option value="antwerp-silentstudy">Silent study</option>
-
-        </optgroup>
-
-        <optgroup label="LDC">
-          <option value="ldc-back">Back</option>
-          <option value="ldc-flex">Flex</option>
-          <option value="ldc-inkom">Inkom</option>
-          <option value="ldc-rooms">Rooms</option>
-          <option value="ldc-leeszaal">Leeszaal</option>
-        </optgroup>
-
-        <option value="ebib">EBIB</option>
-
-        <option value="erasmus">Artes Erasmushuis</option>
-        <option value="kulak">Kulak</option>
-      </select>
+    <div class="queryRow">
+        <div class="queryContainer">
+          <label for="rNumber">R-number:</label>
+          <input type="text" id="rNumber" name="rNumber" placeholder="r1234567" autocapitalize="no" required />
+        </div>
+        <div class="queryContainer">
+          <label for="rememberRNumber">Remember R-number:</label>
+          <input type="checkbox" id="rememberRNumber" name="rememberRNumber" checked />
+        </div>
+        <button id="myReservationsButton" type="button">My Reservations</button>
     </div>
-    <div class="queryContainer">
-      <label for="date">Date:</label>
-      <input type="date" id="date" name="date" required />
+      <div class="queryRow">
+        <div class="queryContainer">
+          <label for="date">Library:</label>
+          <select id="library" name="library" required>
+
+            <optgroup label="Agora">
+              <option value="agora" selected>Silent Study</option>
+              <option value="agora-blok-rooms">
+                Seats in rooms (Only during blokperiode)
+              </option>
+              <option value="agora-flexispace">
+                FlexiSpace (Only during blokperiode)
+              </option>
+              <option value="agora-rooms">
+                Meeting rooms (Not during blokperiode)
+              </option>
+            </optgroup>
+
+            <optgroup label="Arenberg">
+              <option value="arenberg-main">Boekenzaal/Leeszaal/DeLeVille</option>
+              <option value="arenberg-rest">Kelder/Zolder</option>
+              <option value="arenberg-tulp">Tulp 0/1</option>
+            </optgroup>
+            <optgroup label="Antwerpen">
+              <option value="antwerp-balustrade">Balustrade</option>
+              <option value="antwerp-silentstudy">Silent study</option>
+
+            </optgroup>
+
+            <optgroup label="LDC">
+              <option value="ldc-back">Back</option>
+              <option value="ldc-flex">Flex</option>
+              <option value="ldc-inkom">Inkom</option>
+              <option value="ldc-rooms">Rooms</option>
+              <option value="ldc-leeszaal">Leeszaal</option>
+            </optgroup>
+
+            <option value="ebib">EBIB</option>
+
+            <option value="erasmus">Artes Erasmushuis</option>
+            <option value="kulak">Kulak</option>
+          </select>
+        </div>
+        <div class="queryContainer">
+          <label for="date">Date:</label>
+          <input type="date" id="date" name="date" required />
+        </div>
+        <button id="fetchButton" type="submit">Fetch</button>
     </div>
-    <div class="queryContainer">
-      <label for="rNumber">R-number:</label>
-      <input type="text" id="rNumber" name="rNumber" placeholder="r1234567" autocapitalize="no" required />
-    </div>
-    <div class="queryContainer">
-      <label for="rememberRNumber">Remember R-number:</label>
-      <input type="checkbox" id="rememberRNumber" name="rememberRNumber" checked />
-    </div>
-    <button id="fetchButton" type="submit">Fetch</button>
   </form>
   <div id="banner" style="display: none;">
     <div style="gap: 10px; display: flex; flex-direction: column;">
@@ -150,6 +155,18 @@
         </button>
       </form>
     </div>
+  </dialog>
+
+  <dialog id="reservationsDialog">
+      <div class="dialogContent">
+        <h2 class="dialogTitle">My Reservations</h2>
+        <div id="reservationsContent"/>
+        <form class="dialogButtonRow">
+          <button type="submit" id="closeButton" formmethod="dialog" formnovalidate>
+            Close
+          </button>
+        </form>
+      </div>
   </dialog>
 
   <script src="script.js"></script>
